@@ -1,34 +1,69 @@
 import flet as ft
+from flet import icons
 
-def on_dialog_result(e: ft.FilePickerResultEvent):
-    print("Selected files:", e.files)
-    print("Selected file or directory:", e.path)
+drinkTypes = [
+    ft.NavigationDestination(icon=icons.EXPLORE, label="REFRESCOS"),
+    ft.NavigationDestination(icon=icons.EXPLORE, label="BIRRA"),
+    ft.NavigationDestination(icon=icons.EXPLORE, label="CUBATAS"),
+    ft.NavigationDestination(icon=icons.EXPLORE, label="CUBATAS XL"),
+    ft.NavigationDestination(icon=icons.EXPLORE, label="CHUPITOS"),
+]
 
+ticket = []
 
+class Drink:
+    def __init__(self, name, qty, price):
+        self.name = name
+        self.qty = qty
+        self.price = price
+
+    def getDataRow(self):
+        return ft.DataRow(
+            cells=[
+                ft.DataCell(ft.Text(self.name)),
+                ft.DataCell(ft.Text(self.qty)),
+                ft.DataCell(ft.Text(self.price))
+            ]
+        )
 
 def main(page: ft.Page):
-    filePicker = ft.FilePicker(on_result=on_dialog_result)
+    def addDrinkToTicket(drink):
+        ticket.append(drink)
+        existingRows = page.get_table_data(ticketSection)
 
-    def upload_files(e):
-        upload_list = []
-        if filePicker.result != None and filePicker.result.files != None:
-            for f in filePicker.result.files:
-                upload_list.append(
-                    ft.FilePickerUploadFile(
-                        f.name,
-                        upload_url=page.get_upload_url(f.name, 600),
-                    )
-                )
-            filePicker.upload(upload_list)
+    page.window_width = 1170 /4        # window's width is 200 px
+    page.window_height = 2532 /4      # window's height is 200 px
+    page.window_resizable = False  # window is not resizable
 
-    btn = ft.ElevatedButton("Choose files...",
-    on_click=lambda _: filePicker.pick_files(allow_multiple=True))
+    page.title = "NavigationBar Example"
+    page.navigation_bar = ft.NavigationBar(
+        destinations=drinkTypes,
+    )
 
-    btn2 = ft.ElevatedButton("Upload", on_click=upload_files)
+    ticketSection = ft.Container(
+        content=ft.DataTable(
+            columns=[
+                ft.DataColumn(ft.Text("Articulo")),
+                ft.DataColumn(ft.Text("Cantidad")),
+                ft.DataColumn(ft.Text("Precio")),
+            ],
+            column_spacing=10,
+        ),
+    )
 
-    page.overlay.append(filePicker)
-    page.add(btn)
-    page.add(btn2)
+    drinkSelection1 = ft.Container(
+        content=ft.ElevatedButton("birra"),
+        bgcolor=ft.colors.RED,
+        width=200,
+    )
+
+    body = ft.Column(
+        controls=[ticketSection, drinkSelection1],
+        alignment=ft.MainAxisAlignment.CENTER
+    )
+
+    page.add(body)
+
     page.update()
 
 ft.app(target=main)
