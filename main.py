@@ -1,5 +1,6 @@
 import flet as ft
 from flet import icons
+from drinks import Drinks
 
 drinkTypes = [
     ft.NavigationDestination(icon=icons.EXPLORE, label="REFRESCOS"),
@@ -37,7 +38,7 @@ def main(page: ft.Page):
 
     page.title = "NavigationBar Example"
     page.navigation_bar = ft.NavigationBar(
-        destinations=drinkTypes,
+        destinations=Drinks.getDrinksNavigationDestinations(),
     )
 
     ticketSection = ft.Container(
@@ -49,17 +50,20 @@ def main(page: ft.Page):
             ],
             column_spacing=10,
         ),
+        width=page.window_width,
     )
 
     drinkSelection1 = ft.Container(
         content=ft.ElevatedButton("birra"),
         bgcolor=ft.colors.RED,
-        width=200,
+        width=page.window_width,
+        height=200,
     )
 
     body = ft.Column(
         controls=[ticketSection, drinkSelection1],
-        alignment=ft.MainAxisAlignment.CENTER
+        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+        expand=True,
     )
 
     page.add(body)
