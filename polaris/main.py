@@ -32,13 +32,23 @@ def main(page: ft.Page):
         ticket.append(drink)
         existingRows = page.get_table_data(ticketSection)
 
-    page.window_width = 1170 /4        # window's width is 200 px
-    page.window_height = 2532 /4      # window's height is 200 px
-    page.window_resizable = False  # window is not resizable
+    def fabClick(e):
+        print("fabClick")
+
+    page.floating_action_button = ft.FloatingActionButton(
+        icon=icons.CAMERA,
+        on_click=fabClick,
+    )
+
+    # page.window_width = 1170 /4        # window's width is 200 px
+    # page.window_height = 2532 /4      # window's height is 200 px
+    # page.window_resizable = False  # window is not resizable
 
     page.title = "NavigationBar Example"
     page.navigation_bar = ft.NavigationBar(
+        label_behavior=ft.NavigationBarLabelBehavior.ALWAYS_HIDE,
         destinations=Drinks.getDrinksNavigationDestinations(),
+
     )
 
     ticketSection = ft.Container(
@@ -50,13 +60,14 @@ def main(page: ft.Page):
             ],
             column_spacing=10,
         ),
-        width=page.window_width,
+        width=999,
+        padding=ft.padding.only(top=40)
     )
 
     drinkSelection1 = ft.Container(
-        content=ft.ElevatedButton("birra"),
+        content=ft.ElevatedButton("birra", on_click=fabClick),
         bgcolor=ft.colors.RED,
-        width=page.window_width,
+        width=9999,
         height=200,
     )
 
