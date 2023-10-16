@@ -32,52 +32,74 @@ def main(page: ft.Page):
         ticket.append(drink)
         existingRows = page.get_table_data(ticketSection)
 
+    def generateDrinkSelection(drinkType):
+        return ft.Container(
+            content=Drinks.getDrinksGrid(drinkType),
+            bgcolor=ft.colors.RED,
+            width=9999,
+            height=200,
+        )
+    
+    drinkSelection = generateDrinkSelection("refrescos")
+
+    def tabChanged(e):
+        tabIndex = e.data
+        drinkMap = ["refrescos", "birra", "cubatas", "cubatas xl", "chupitos"]
+
+        drinkSelection.content = Drinks.getDrinksGrid(drinkMap[int(tabIndex)])
+        page.update()
+        print("tabChanged")
+
     def fabClick(e):
-        print("fabClick")
+        print("fabClick " + e.data)
 
     page.floating_action_button = ft.FloatingActionButton(
         icon=icons.CAMERA,
         on_click=fabClick,
     )
 
-    # page.window_width = 1170 /4        # window's width is 200 px
-    # page.window_height = 2532 /4      # window's height is 200 px
-    # page.window_resizable = False  # window is not resizable
-
     page.title = "NavigationBar Example"
     page.navigation_bar = ft.NavigationBar(
         label_behavior=ft.NavigationBarLabelBehavior.ALWAYS_HIDE,
         destinations=Drinks.getDrinksNavigationDestinations(),
-
+        on_change=tabChanged
     )
 
-    ticketSection = ft.Container(
+    table = ft.Container(
         content=ft.DataTable(
             columns=[
                 ft.DataColumn(ft.Text("Articulo")),
                 ft.DataColumn(ft.Text("Cantidad")),
                 ft.DataColumn(ft.Text("Precio")),
             ],
+            rows=[
+                Drink("birra", 1, "1.50").getDataRow(),
+                Drink("roncola", 3, "5.50").getDataRow(),
+                Drink("ginlemon", 2, "5.50").getDataRow(),
+                Drink("chupito 1€", 1, "1.00").getDataRow(),
+                Drink("chupito MES", 4, "3.00").getDataRow(),
+            ],
             column_spacing=10,
         ),
         width=999,
-        padding=ft.padding.only(top=40)
     )
 
-    drinkSelection1 = ft.Container(
-        content=ft.ElevatedButton("birra", on_click=fabClick),
-        bgcolor=ft.colors.RED,
-        width=9999,
-        height=200,
+    ticketSection = ft.ListView(
+        expand=1,
+        spacing=10,
+        auto_scroll=False,
+        controls=[
+            table,
+        ]
     )
 
     body = ft.Column(
-        controls=[ticketSection, drinkSelection1],
+        controls=[ticketSection, drinkSelection],
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         expand=True,
     )
 
-    page.add(body)
+    page.add(ft.SafeArea(body, expand=True))
 
     page.update()
 
