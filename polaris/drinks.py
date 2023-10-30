@@ -1,5 +1,7 @@
 from flet import NavigationDestination, DataCell, FilledButton, Text, GridView, Image, ImageFit
 
+navBarIconSize = 45
+
 class Drink:
     def __init__(self, name, price):
         self.name = name
@@ -23,11 +25,11 @@ drinks = [
 ]
 
 drinkIcons = [
-    Image(src=f"/icons/icons8-reajuste-salarial-50.png", width=50, height=50, fit=ImageFit.CONTAIN),
-    Image(src=f"/icons/icons8-cerveza-24.png", width=50, height=50, fit=ImageFit.CONTAIN),
-    Image(src=f"/icons/icons8-cóctel-24.png", width=50, height=50, fit=ImageFit.CONTAIN),
-    Image(src=f"/icons/icons8-cup-with-straw-50.png", width=50, height=50, fit=ImageFit.CONTAIN),
-    Image(src=f"/icons/icons8-chupito-de-vodka-24.png", width=50, height=50, fit=ImageFit.CONTAIN),
+    Image(src=f"/icons/icons8-reajuste-salarial-50.png", width=navBarIconSize, height=navBarIconSize, fit=ImageFit.CONTAIN),
+    Image(src=f"/icons/icons8-cerveza-24.png", width=navBarIconSize, height=navBarIconSize, fit=ImageFit.CONTAIN),
+    Image(src=f"/icons/icons8-cóctel-24.png", width=navBarIconSize, height=navBarIconSize, fit=ImageFit.CONTAIN),
+    Image(src=f"/icons/icons8-cup-with-straw-50.png", width=navBarIconSize, height=navBarIconSize, fit=ImageFit.CONTAIN),
+    Image(src=f"/icons/icons8-chupito-de-vodka-24.png", width=navBarIconSize, height=navBarIconSize, fit=ImageFit.CONTAIN),
 ]
 
 drinkSelection = {
