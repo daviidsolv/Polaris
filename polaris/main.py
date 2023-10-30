@@ -35,7 +35,7 @@ def main(page: ft.Page):
     def generateDrinkSelection(drinkType):
         return ft.Container(
             content=Drinks.getDrinksGrid(drinkType),
-            bgcolor=ft.colors.RED,
+            #bgcolor=ft.colors.RED,
             width=9999,
             height=200,
         )
